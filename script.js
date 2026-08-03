@@ -43,13 +43,13 @@ async function translateText(){
     const target = targetLanguage.value;
 
     // MyMemory doesn't support "auto"
-    if (source === "auto") {
-        source = "en";
-    }
+    // if (source === "auto") {
+    //     source = "en";
+    // }
 
-    console.log("Text:", text);
-    console.log("Source:", source);
-    console.log("Target:", target);
+    // console.log("Text:", text);
+    // console.log("Source:", source);
+    // console.log("Target:", target);
     
     try{
         const response = await fetch(
@@ -71,3 +71,13 @@ async function translateText(){
 }
 translateButton.addEventListener("click", translateText);
 
+function copyTranslation(){
+    const text = translatedText.value;
+    if(text === ""){
+        statusMessage.textContent = "Copy field is empty!";
+        return;
+    }
+    navigator.clipboard.writeText(text);
+    statusMessage.textContent = "Text Copied";
+}
+copyButton.addEventListener("click", copyTranslation);
