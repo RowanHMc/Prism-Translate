@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prism Translate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="min-h-screen text-white bg-gradient-to-br from-[#081229] via-[#0D6B7B] to-[#522C73]">
+    <header id="header" class="max-w-7xl mx-auto px-6 lg:px-10 pt-8">
+        <div class="inline-flex items-center gap-3 px-7 py-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
+            <i class="fa-solid fa-language text-cyan-300 text-xl"></i>
+            <span class="uppercase tracking-[0.2em] font-medium text-gray-100">PRISM TRANSLATE</span>
+        </div>
+        <h1 class="mt-10 text-5xl md:text-6xl font-bold leading-tight max-w-4xl">Say it in another language.</h1>
+    </header>
+    <!-- main -->
+     <main id="mainContent" class="max-w-7xl mx-auto px-6 lg:px-10 mt-16"> 
+    <section id="translatorSection" class="max-w-7xl mx-auto mt-16 flex flex-col lg:flex-row items-center justify-center gap-16 pb-10">
+        <!---left card -->
+        <article id="sourceCard" class="w-full lg:w-[520px] h-[400px] rounded-[36px] border border-white/10 bg-white/10 backdrop-blur-lg p-8 flex flex-col">
+            <div class="flex justify-between items-center">
+                <label for="sourceLanguage" class="uppercase tracking-[0.25em] text-gray-300 text-sm">FROM</label>
+
+                <select id="sourceLanguage" class="bg-slate-700/70  border border-white/10 rounded-xl px-5 py-3 outline-none">
+                    <option value="auto">Auto Detect</option>
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="sw">Swahili</option>
+                    <option value="ja">Japanese</option>
+                </select>
+            </div>
+
+            <textarea id="sourceText" maxlength="500" placeholder="Type text here..." class=" flex-1 mt-8 bg-transparent resize-none outline-none text-4xl placeholder:text-gray-400">
+                </textarea>
+            <div class="border-t border-white/10 pt-6 mt-6 flex justify-between items-center">
+                <p class="text-gray-300">
+                    <span id="characterCount">0</span>/500</p>
+
+                <div class="flex gap-4">
+                    <button id="clearButton" class="px-6 py-3 rounded-full bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 transition-all duration-300">Clear</button>
+                    <Translate id="translateButton" class="px-8 py-3 rounded-full bg-cyan-400 text-slate-900 font-semibold shadow-lg shadow-cyan-500/30 hover:bg-cyan-300 hover:shadow-cyan-400/50 hover:scale-105 transition-all duration-300">Translate</button>    
+                </div>    
+            </div>
+
+        </article>
+        <!-- Swap Button -->
+         <div class="flex items-center justify-center">
+       <button id="swapButton" class="w-16 h-16 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-3xl hover:bg-white/20 hover:rotate-180 transition-all duration-300"><i class="fa-solid fa-right-left"></i></button>
+
+       <!-- right -->
+        <article id="sourceCard" class="w-full lg:w-[520px] h-[400px] rounded-[36px] border border-white/10 bg-white/10 backdrop-blur-lg p-8 flex flex-col">
+
+                <div class="flex justify-between items-center">
+                    <label for="targetLanguage" class="uppercase tracking-[0.25em] text-gray-300 text-sm">TO</label>
+
+                    <select id="targetLanguage" class="bg-slate-700/70 border border-white/10 rounded-xl px-5 py-3 outline-none">
+                        <option value="en">English</option> 
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="sw">Swahili</option>
+                        <option value="ja">Japanese</option>
+                    </select>
+                </div>
+
+                <textarea
+                    id="translatedText" readonly placeholder="Translation appears here..." class="flex-1 mt-8 bg-transparent resize-none outline-none text-4xl placeholder:text-gray-400">
+                </textarea>     
+                    
+                <div class="border-t border-white/10 pt-6 flex justify-end">
+                    <button id="copyBtn" class="px-6 py-3 rounded-full bg-white border border-white text-gray-400 hover:bg-white/20 transition-all duration-300">
+                        <i class="fa-regular fa-copy mr-2"></i>Copy   
+                    </button>
+                </div>
+            </article>
+     </section>         
+                 <p id="statusMessage"></p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
