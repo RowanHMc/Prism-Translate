@@ -1,0 +1,10 @@
+const sourceLanguage = document.getElementById('sourceLanguage');
+const targetLanguage = document.getElementById('targetLanguage');
+const sourceText = document.getElementById('sourceText');
+const translatedText = document.getElementById('translatedText');
+const translateButton = document.getElementById('translateButton');
+const clearButton = document.getElementById('clearButton');
+const swapButon = document.getElementById('swapButon');
+const copyButton = document.getElementById('copyButton');
+const charachterCount = document.getElementById('charachterCount');
+const statusMessage= document.getElementById('statusMessage');
