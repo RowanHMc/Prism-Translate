@@ -29,3 +29,45 @@ function clearTranslation(){
 }
 clearButton.addEventListener("click", clearTranslation);
 
+// translate btn
+async function translateText(){
+    const text = sourceText.value.trim();
+    if(text === ""){
+        statusMessage.textContent = "Nothing to translate!";
+        return;
+    }
+    statusMessage.textContent = "";
+
+        // Get selected languages
+    let source = sourceLanguage.value;
+    const target = targetLanguage.value;
+
+    // MyMemory doesn't support "auto"
+    if (source === "auto") {
+        source = "en";
+    }
+
+    console.log("Text:", text);
+    console.log("Source:", source);
+    console.log("Target:", target);
+    
+    try{
+        const response = await fetch(
+             `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`
+        );
+        if(!response.ok){
+            throw new Error("Translation Failed!")
+        }
+       
+        const data = await response.json();
+        console.log(data);
+
+        translatedText.value = data[0][0][0];
+
+    } catch(error){
+        console.error(error);
+        statusMessage.textContent = "Cannot translate now! Try again!";
+    }
+}
+translateButton.addEventListener("click", translateText);
+
