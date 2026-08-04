@@ -42,7 +42,10 @@
             <div class="border-t border-white/10 pt-6 mt-6 flex justify-between items-center">
                 <p class="text-gray-300">
                     <span id="characterCount">0</span>/500</p>
-
+<button id="speakSourceButton"
+    class="w-12 h-12 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300">
+    <i class="fa-solid fa-volume-high"></i>
+</button>
                 <div class="flex gap-4">
                     <button id="clearButton" class="px-6 py-3 rounded-full bg-white/10 border border-white/20 text-gray-200 hover:bg-white/20 transition-all duration-300">Clear</button>
                     <button id="translateButton" class="px-8 py-3 rounded-full bg-cyan-400 text-slate-900 font-semibold shadow-lg shadow-cyan-500/30 hover:bg-cyan-300 hover:shadow-cyan-400/50 hover:scale-105 transition-all duration-300">Translate</button>    
@@ -73,11 +76,17 @@
                 <textarea
                     id="translatedText" readonly placeholder="Translation appears here..." class="flex-1 mt-8 bg-transparent resize-none outline-none text-4xl placeholder:text-gray-400">
                 </textarea>     
-                    
+                      
                 <div class="border-t border-white/10 pt-6 flex justify-end">
+                             <button id="speakTranslatedButton"
+    class="w-12 h-12 rounded-full bg-white/10 border mr-2 border-white/20 hover:bg-white/20 transition-all duration-300">
+    <i class="fa-solid fa-volume-high"></i>
+</button>
                     <button id="copyButton" class="px-6 py-3 rounded-full bg-white border border-white text-gray-400 hover:bg-white/20 transition-all duration-300">
                         <i class="fa-regular fa-copy mr-2"></i>Copy   
                     </button>
+
+         
                 </div>
             </article>
      </section> 

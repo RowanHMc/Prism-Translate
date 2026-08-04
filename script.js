@@ -9,6 +9,8 @@ const copyButton = document.getElementById('copyButton');
 const characterCount = document.getElementById('characterCount');
 const statusMessage= document.getElementById('statusMessage');
 const historySection= document.getElementById('historySection');
+const speakSourceButton = document.getElementById('speakSourceButton')
+const speakTranslatedButton = document.getElementById('speakTranslatedButton')
 // translation history - why array-
 let translationHistory = []
 const MAX_HISTORY = 10;
@@ -108,6 +110,22 @@ function copyTranslation(){
 }
 copyButton.addEventListener("click", copyTranslation);
 
+function speakText(text, language){
+    if(text.trim()=== ""){
+        statusMessage.textContent = "Enter text to pronounce!";
+        return
+    }
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = language;
+    window.speechSynthesis.speak(speech);
+}
+speakSourceButton.addEventListener("click", function(){
+    // console.log("Source speaker button clicked")
+    speakText(sourceText.value, sourceLanguage.value)
+});
+speakTranslatedButton.addEventListener("click", function(){
+    speakText(translatedText.value, targetLanguage.value);
+})
 function showHistory(){
     historySection.innerHTML = "";
     translationHistory.forEach((item, index) => {
