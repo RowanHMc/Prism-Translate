@@ -7,11 +7,11 @@ const clearButton = document.getElementById('clearButton');
 const swapButton = document.getElementById('swapButton');
 const copyButton = document.getElementById('copyButton');
 const characterCount = document.getElementById('characterCount');
-const statusMessage= document.getElementById('statusMessage');
-const historySection= document.getElementById('historySection');
+const statusMessage = document.getElementById('statusMessage');
+const historySection = document.getElementById('historySection');
 const speakSourceButton = document.getElementById('speakSourceButton')
 const speakTranslatedButton = document.getElementById('speakTranslatedButton')
-// translation history - why array-
+
 let translationHistory = []
 const MAX_HISTORY = 10;
 
@@ -33,48 +33,46 @@ const languageMap = {
     dutch: "nl"
 };
 
-// functions
-function updateCharacterCount(){
+
+function updateCharacterCount() {
     console.log(sourceText.value);
     characterCount.textContent = sourceText.value.length;
 }
 sourceText.addEventListener("input", updateCharacterCount);
 
-function clearTranslation(){
-    sourceText.value= "";
-    // translatedText.value = "";
-    characterCount.textContent = 0;
+function clearTranslation() {
+    sourceText.value = "";
     statusMessage.textContent = "";
 }
 clearButton.addEventListener("click", clearTranslation);
 
-// translate btn
-async function translateText(){
+
+async function translateText() {
     const text = sourceText.value.trim();
-    if(text === ""){
+    if (text === "") {
         statusMessage.textContent = "Nothing to translate!";
         return;
     }
     statusMessage.textContent = "";
-        startLoading();
+    startLoading();
 
-        // Get selected languages
+    
     const source = languageMap[sourceLanguage.value.trim().toLowerCase()];
     const target = languageMap[targetLanguage.value.trim().toLowerCase()];
 
     if (!source || !target) {
-    statusMessage.textContent = "Please enter valid language names.";
-    stopLoading();
-    return;
-}
-    try{
+        statusMessage.textContent = "Please enter valid language names.";
+        stopLoading();
+        return;
+    }
+    try {
         const response = await fetch(
-             `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`
+            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`
         );
-        if(!response.ok){
+        if (!response.ok) {
             throw new Error("Translation Failed!")
         }
-       
+
         const data = await response.json();
         console.log(data);
 
@@ -82,22 +80,22 @@ async function translateText(){
         const translation = {
             source: text,
             translated: data[0][0][0],
-           from: sourceLanguage.value,
-           to: targetLanguage.value
+            from: sourceLanguage.value,
+            to: targetLanguage.value
         };
         translationHistory.unshift(translation)
 
-        if(translationHistory.length > MAX_HISTORY){
+        if (translationHistory.length > MAX_HISTORY) {
             translationHistory.pop();
         }
         showHistory();
         saveHistory();
         clearTranslation();
 
-       
 
-    } 
-    catch(error){
+
+    }
+    catch (error) {
         console.error(error);
         stopLoading();
         statusMessage.textContent = "Cannot translate now! Try again!";
@@ -106,38 +104,38 @@ async function translateText(){
 }
 translateButton.addEventListener("click", translateText);
 
-function        startLoading(){
+function startLoading() {
     translateButton.disabled = true;
     translateButton.textContent = "Translating...";
     translateButton.classList.add("opacity-70", "cursor-not-allowed");
 }
-function stopLoading(){
+function stopLoading() {
     translateButton.disabled = false;
     translateButton.textContent = "Translate";
     translateButton.classList.remove("opacity-70", "cursor-not-allowed")
 }
- function deleteHistory(index){
-            translationHistory.splice(index, 1);
-            showHistory();
-            saveHistory();
-        }
+function deleteHistory(index) {
+    translationHistory.splice(index, 1);
+    showHistory();
+    saveHistory();
+}
 
-function swapLanguages(){
+function swapLanguages() {
     const tempLanguage = sourceLanguage.value;
     sourceLanguage.value = targetLanguage.value;
     targetLanguage.value = tempLanguage;
 
-     const tempText = sourceText.value;
+    const tempText = sourceText.value;
     sourceText.value = translatedText.value;
     translatedText.value = tempText;
 
-    updateCharacterCount(); 
-}        
-    swapButton.addEventListener("click", swapLanguages);
+    updateCharacterCount();
+}
+swapButton.addEventListener("click", swapLanguages);
 
-function copyTranslation(){
+function copyTranslation() {
     const text = translatedText.value;
-    if(text === ""){
+    if (text === "") {
         statusMessage.textContent = "Copy field is empty!";
         return;
     }
@@ -146,26 +144,26 @@ function copyTranslation(){
 }
 copyButton.addEventListener("click", copyTranslation);
 
-function speakText(text, language){
-    if(text.trim()=== ""){
+function speakText(text, language) {
+    if (text.trim() === "") {
         statusMessage.textContent = "Enter text to pronounce!";
         return
     }
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = languageMap[language.trim().toLowerCase()];
-    speech.onerror = function(){
+    speech.onerror = function () {
         statusMessage.textContent = "Unable to play";
     }
     window.speechSynthesis.speak(speech);
 }
-speakSourceButton.addEventListener("click", function(){
-   
+speakSourceButton.addEventListener("click", function () {
+
     speakText(sourceText.value, sourceLanguage.value)
 });
-speakTranslatedButton.addEventListener("click", function(){
+speakTranslatedButton.addEventListener("click", function () {
     speakText(translatedText.value, targetLanguage.value);
 })
-function showHistory(){
+function showHistory() {
     historySection.innerHTML = "";
     translationHistory.forEach((item, index) => {
         historySection.innerHTML += `    
@@ -182,23 +180,23 @@ function showHistory(){
             </div>
         `
     });
-    
- };
- 
- historySection.addEventListener("click", function (event) {
+
+};
+
+historySection.addEventListener("click", function (event) {
     const button = event.target.closest(".deleteButton");
     if (!button) return;
     const index = Number(button.dataset.index);
     deleteHistory(index);
 });
 
-function saveHistory(){
+function saveHistory() {
     localStorage.setItem('translationHistory', JSON.stringify(translationHistory));
- }
+}
 
-function loadHistory(){
+function loadHistory() {
     const savedHistory = localStorage.getItem("translationHistory");
-    if(savedHistory){
+    if (savedHistory) {
         translationHistory = JSON.parse(savedHistory);
         showHistory();
     }
