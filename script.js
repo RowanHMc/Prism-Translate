@@ -22,7 +22,7 @@ sourceText.addEventListener("input", updateCharacterCount);
 
 function clearTranslation(){
     sourceText.value= "";
-    translatedText.value = "";
+    // translatedText.value = "";
     characterCount.textContent = 0;
     statusMessage.textContent = "";
 
@@ -42,15 +42,6 @@ async function translateText(){
     let source = sourceLanguage.value;
     const target = targetLanguage.value;
 
-    // MyMemory doesn't support "auto"
-    // if (source === "auto") {
-    //     source = "en";
-    // }
-
-    // console.log("Text:", text);
-    // console.log("Source:", source);
-    // console.log("Target:", target);
-    
     try{
         const response = await fetch(
              `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`
@@ -75,6 +66,9 @@ async function translateText(){
             translationHistory.pop();
         }
         showHistory();
+        clearTranslation();
+
+       
 
     } catch(error){
         console.error(error);
@@ -82,6 +76,24 @@ async function translateText(){
     }
 }
 translateButton.addEventListener("click", translateText);
+
+ function deleteHistory(index){
+            translationHistory.splice(index, 1);
+            showHistory();
+        }
+
+function swapLanguages(){
+    const tempLanguage = sourceLanguage.value;
+    sourceLanguage.value = targetLanguage.value;
+    targetLanguage.value = tempLanguage;
+
+     const tempText = sourceText.value;
+    sourceText.value = translatedText.value;
+    translatedText.value = tempText;
+
+    updateCharacterCount();
+}        
+    swapButton.addEventListener("click", swapLanguages);
 
 function copyTranslation(){
     const text = translatedText.value;
@@ -96,13 +108,13 @@ copyButton.addEventListener("click", copyTranslation);
 
 function showHistory(){
     historySection.innerHTML = "";
-    translationHistory.forEach((item) => {
+    translationHistory.forEach((item, index) => {
         historySection.innerHTML += `    
-            <div class="rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 p-6">
+            <div class="rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 mb-4">
                 <div class="flex justify-between items-center mb-4">
                     <p class="text-sm text-gray-300">
                         ${item.from.toUpperCase()} → ${item.to.toUpperCase()}</p>
-                   <button class="text-red-400 hover:text-red-300">
+                   <button class="deleteButton text-red-400 hover:text-red-300" data-index = "${index}">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -111,5 +123,14 @@ function showHistory(){
             </div>
         `
     });
- }
+    
+ };
+ 
+ historySection.addEventListener("click", function (event) {
+    const button = event.target.closest(".deleteButton");
+    if (!button) return;
+    const index = Number(button.dataset.index);
+    deleteHistory(index);
+
+});
  
