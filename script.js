@@ -27,7 +27,6 @@ function clearTranslation(){
     // translatedText.value = "";
     characterCount.textContent = 0;
     statusMessage.textContent = "";
-
 }
 clearButton.addEventListener("click", clearTranslation);
 
@@ -39,6 +38,7 @@ async function translateText(){
         return;
     }
     statusMessage.textContent = "";
+    starLoading();
 
         // Get selected languages
     let source = sourceLanguage.value;
@@ -73,13 +73,26 @@ async function translateText(){
 
        
 
-    } catch(error){
+    } 
+    catch(error){
         console.error(error);
+        starLoading();
         statusMessage.textContent = "Cannot translate now! Try again!";
     }
+    stopLoading();
 }
 translateButton.addEventListener("click", translateText);
 
+function starLoading(){
+    translateButton.disabled = true;
+    translateButton.textContent = "Translating...";
+    translateButton.classList.add("opacity-70", "cursor-not-allowed");
+}
+function stopLoading(){
+    translateButton.disabled = false;
+    translateButton.textContent = "Translate";
+    translateButton.classList.remove("opacity-70", "cursor-not-allowed")
+}
  function deleteHistory(index){
             translationHistory.splice(index, 1);
             showHistory();
@@ -117,10 +130,13 @@ function speakText(text, language){
     }
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = language;
+    speech.onerror = function(){
+        statusMessage.textContent = "Unable to play";
+    }
     window.speechSynthesis.speak(speech);
 }
 speakSourceButton.addEventListener("click", function(){
-    // console.log("Source speaker button clicked")
+   
     speakText(sourceText.value, sourceLanguage.value)
 });
 speakTranslatedButton.addEventListener("click", function(){
