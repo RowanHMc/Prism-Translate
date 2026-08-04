@@ -69,5 +69,8 @@
 - Impliment transliteration - Speech to text written pronunciation.
 - More supported languages
 
+# PowerPoint presentation link
+ - https://1drv.ms/p/c/8861886c4d95b6cd/IQBQJFIMlxUGQ5KsZD93hEqaAbqZjRkdCn_6cs5KDirOCEs?e=wt0I6M
+
 # Author
 Rowan Hadegu
