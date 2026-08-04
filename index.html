@@ -28,14 +28,13 @@
             <div class="flex justify-between items-center">
                 <label for="sourceLanguage" class="uppercase tracking-[0.25em] text-gray-300 text-sm">FROM</label>
 
-                <select id="sourceLanguage" class="bg-slate-700/70  border border-white/10 rounded-xl px-5 py-3 outline-none">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                    <option value="de">German</option>
-                    <option value="sw">Swahili</option>
-                    <option value="ja">Japanese</option>
-                </select>
+                <input
+                    id="sourceLanguage"
+                    list="languages"
+                    placeholder="Type language..."
+                    value="English"
+                    class="bg-slate-700/70 border border-white/10 rounded-xl px-5 py-3 outline-none w-48"
+/>
             </div>
 
             <textarea id="sourceText" maxlength="500" placeholder="Type text here..." class=" flex-1 mt-8 bg-transparent resize-none outline-none text-4xl placeholder:text-gray-400"></textarea>
@@ -62,15 +61,13 @@
 
                 <div class="flex justify-between items-center">
                     <label for="targetLanguage" class="uppercase tracking-[0.25em] text-gray-300 text-sm">TO</label>
-
-                    <select id="targetLanguage" class="bg-slate-700/70 border border-white/10 rounded-xl px-5 py-3 outline-none">
-                        <option value="en">English</option> 
-                        <option value="es">Spanish</option>
-                        <option value="fr">French</option>
-                        <option value="de">German</option>
-                        <option value="sw">Swahili</option>
-                        <option value="ja">Japanese</option>
-                    </select>
+                    <input
+                        id="targetLanguage"
+                        list="languages"
+                        placeholder="Type language..."
+                        value="Spanish"
+                        class="bg-slate-700/70 border border-white/10 rounded-xl px-5 py-3 outline-none w-48"
+                    />
                 </div>
 
                 <textarea
@@ -93,7 +90,24 @@
     <section id="historySection" class="max-w-7xl mx-auto mt-12 pb-10">
     </section>
                  <p id="statusMessage"></p>
-    
+                 
+    <datalist id="languages">
+    <option value="English">
+    <option value="Spanish">
+    <option value="French">
+    <option value="German">
+    <option value="Swahili">
+    <option value="Japanese">
+    <option value="Italian">
+    <option value="Portuguese">
+    <option value="Chinese">
+    <option value="Korean">
+    <option value="Hindi">
+    <option value="Arabic">
+    <option value="Russian">
+    <option value="Turkish">
+    <option value="Dutch">
+</datalist>
     </main>
 
     <script src="script.js"></script>

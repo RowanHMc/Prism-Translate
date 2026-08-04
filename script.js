@@ -15,6 +15,24 @@ const speakTranslatedButton = document.getElementById('speakTranslatedButton')
 let translationHistory = []
 const MAX_HISTORY = 10;
 
+const languageMap = {
+    english: "en",
+    spanish: "es",
+    french: "fr",
+    german: "de",
+    swahili: "sw",
+    japanese: "ja",
+    italian: "it",
+    portuguese: "pt",
+    chinese: "zh-CN",
+    korean: "ko",
+    hindi: "hi",
+    arabic: "ar",
+    russian: "ru",
+    turkish: "tr",
+    dutch: "nl"
+};
+
 // functions
 function updateCharacterCount(){
     console.log(sourceText.value);
@@ -38,12 +56,17 @@ async function translateText(){
         return;
     }
     statusMessage.textContent = "";
-    starLoading();
+        startLoading();
 
         // Get selected languages
-    let source = sourceLanguage.value;
-    const target = targetLanguage.value;
+    const source = languageMap[sourceLanguage.value.trim().toLowerCase()];
+    const target = languageMap[targetLanguage.value.trim().toLowerCase()];
 
+    if (!source || !target) {
+    statusMessage.textContent = "Please enter valid language names.";
+    stopLoading();
+    return;
+}
     try{
         const response = await fetch(
              `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`
@@ -59,8 +82,8 @@ async function translateText(){
         const translation = {
             source: text,
             translated: data[0][0][0],
-            from: source,
-            to: target 
+           from: sourceLanguage.value,
+           to: targetLanguage.value
         };
         translationHistory.unshift(translation)
 
@@ -76,14 +99,14 @@ async function translateText(){
     } 
     catch(error){
         console.error(error);
-        starLoading();
+        stopLoading();
         statusMessage.textContent = "Cannot translate now! Try again!";
     }
     stopLoading();
 }
 translateButton.addEventListener("click", translateText);
 
-function starLoading(){
+function        startLoading(){
     translateButton.disabled = true;
     translateButton.textContent = "Translating...";
     translateButton.classList.add("opacity-70", "cursor-not-allowed");
@@ -129,7 +152,7 @@ function speakText(text, language){
         return
     }
     const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = language;
+    speech.lang = languageMap[language.trim().toLowerCase()];
     speech.onerror = function(){
         statusMessage.textContent = "Unable to play";
     }
