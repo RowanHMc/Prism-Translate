@@ -139,5 +139,12 @@ function saveHistory(){
     localStorage.setItem('translationHistory', JSON.stringify(translationHistory));
  }
 
-
+function loadHistory(){
+    const savedHistory = localStorage.getItem("translationHistory");
+    if(savedHistory){
+        translationHistory = JSON.parse(savedHistory);
+        showHistory();
+    }
+}
+loadHistory();
 
