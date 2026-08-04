@@ -8,7 +8,7 @@ const swapButton = document.getElementById('swapButton');
 const copyButton = document.getElementById('copyButton');
 const characterCount = document.getElementById('characterCount');
 const statusMessage= document.getElementById('statusMessage');
-
+const historySection= document.getElementById('historySection');
 // translation history - why array-
 let translationHistory = []
 const MAX_HISTORY = 10;
@@ -24,7 +24,7 @@ function clearTranslation(){
     sourceText.value= "";
     translatedText.value = "";
     characterCount.textContent = 0;
-    statusMessage = "";
+    statusMessage.textContent = "";
 
 }
 clearButton.addEventListener("click", clearTranslation);
@@ -63,6 +63,18 @@ async function translateText(){
         console.log(data);
 
         translatedText.value = data[0][0][0];
+        const translation = {
+            source: text,
+            translated: data[0][0][0],
+            from: source,
+            to: target 
+        };
+        translationHistory.unshift(translation)
+
+        if(translationHistory.length > MAX_HISTORY){
+            translationHistory.pop();
+        }
+        showHistory();
 
     } catch(error){
         console.error(error);
@@ -81,3 +93,23 @@ function copyTranslation(){
     statusMessage.textContent = "Text Copied";
 }
 copyButton.addEventListener("click", copyTranslation);
+
+function showHistory(){
+    historySection.innerHTML = "";
+    translationHistory.forEach((item) => {
+        historySection.innerHTML += `    
+            <div class="rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-sm text-gray-300">
+                        ${item.from.toUpperCase()} → ${item.to.toUpperCase()}</p>
+                   <button class="text-red-400 hover:text-red-300">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+               <p class="text-lg font-medium mb-2">${item.source}</p>                                 
+                <p class="text-cyan-300 text-lg">${item.translated}</p>                                         
+            </div>
+        `
+    });
+ }
+ 
