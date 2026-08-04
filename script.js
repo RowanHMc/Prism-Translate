@@ -66,6 +66,7 @@ async function translateText(){
             translationHistory.pop();
         }
         showHistory();
+        saveHistory();
         clearTranslation();
 
        
@@ -80,6 +81,7 @@ translateButton.addEventListener("click", translateText);
  function deleteHistory(index){
             translationHistory.splice(index, 1);
             showHistory();
+            saveHistory();
         }
 
 function swapLanguages(){
@@ -91,7 +93,7 @@ function swapLanguages(){
     sourceText.value = translatedText.value;
     translatedText.value = tempText;
 
-    updateCharacterCount();
+    updateCharacterCount(); 
 }        
     swapButton.addEventListener("click", swapLanguages);
 
@@ -131,6 +133,11 @@ function showHistory(){
     if (!button) return;
     const index = Number(button.dataset.index);
     deleteHistory(index);
-
 });
- 
+
+function saveHistory(){
+    localStorage.setItem('translationHistory', JSON.stringify(translationHistory));
+ }
+
+
+
