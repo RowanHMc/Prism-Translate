@@ -35,7 +35,7 @@ const languageMap = {
 
 
 function updateCharacterCount() {
-    console.log(sourceText.value);
+    // console.log(sourceText.value);
     characterCount.textContent = sourceText.value.length;
 }
 sourceText.addEventListener("input", updateCharacterCount);
@@ -50,7 +50,7 @@ clearButton.addEventListener("click", clearTranslation);
 async function translateText() {
     const text = sourceText.value.trim();
     if (text === "") {
-        statusMessage.textContent = "Nothing to translate!";
+        alert("Nothing to translate!");
         return;
     }
     statusMessage.textContent = "";
@@ -61,7 +61,7 @@ async function translateText() {
     const target = languageMap[targetLanguage.value.trim().toLowerCase()];
 
     if (!source || !target) {
-        statusMessage.textContent = "Please enter valid language names.";
+        alert("Please enter valid language names.");
         stopLoading();
         return;
     }
@@ -98,7 +98,7 @@ async function translateText() {
     catch (error) {
         console.error(error);
         stopLoading();
-        statusMessage.textContent = "Cannot translate now! Try again!";
+        alert ("Cannot translate now! Try again!");
     }
     stopLoading();
 }
@@ -136,7 +136,7 @@ swapButton.addEventListener("click", swapLanguages);
 function copyTranslation() {
     const text = translatedText.value;
     if (text === "") {
-        statusMessage.textContent = "Copy field is empty!";
+        alert ("Copy field is empty!");
         return;
     }
     navigator.clipboard.writeText(text);
@@ -146,7 +146,7 @@ copyButton.addEventListener("click", copyTranslation);
 
 function speakText(text, language) {
     if (text.trim() === "") {
-        statusMessage.textContent = "Enter text to pronounce!";
+        alert("Enter text to pronounce!");
         return
     }
     const speech = new SpeechSynthesisUtterance(text);
@@ -170,8 +170,10 @@ function showHistory() {
             <div class="rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 mb-4">
                 <div class="flex justify-between items-center mb-4">
                     <p class="text-sm text-gray-300">
-                        ${item.from.toUpperCase()} → ${item.to.toUpperCase()}</p>
-                   <button class="deleteButton text-red-400 hover:text-red-300" data-index = "${index}">
+                     ${item.from.toUpperCase()} → ${item.to.toUpperCase()}
+                        </p>
+                   <button class="deleteButton text-red-400 hover:text-red-300" 
+                   data-index="${index}">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
